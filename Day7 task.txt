@@ -1,0 +1,37 @@
+//step 01: create an XHR object
+var request=new XMLHttpRequest();
+
+//step 02: initate a request
+request.open("GET","https://restcountries.com/v2/all");
+
+//step 03: sending the request
+request.send();
+
+//step 04: once the data successfully loaded from the server
+//success status code : 200
+request.onload=function(){
+var res=JSON.parse(request.response);
+//    console.log(res);
+//code here
+
+//01. Get all the countries from the Asia continent /region using the Filter function
+var asia=res.filter((element)=>element.region=="Asia").map((element)=>element.name);
+    console.log(asia);
+
+//02. Get all the countries with a population of less than 2 lakhs using Filter function
+var population=res.filter((element)=>element.population<200000).map((element)=>element.name);
+    console.log(population);
+
+//03. Print the following details name, capital, flag using forEach function
+res.forEach(element => console.log(`country: ${element.name},capital: ${element.capital},flag: ${element.flags.png}`));
+
+//04. Print the total population of countries using reduce function
+var totalpopulation=res.reduce((acc,cv)=>acc+cv.population,0);
+    console.log(totalpopulation);
+
+//05.Print the country which uses US Dollars as currency
+var currency = res.filter((element) => (element.currencies));  
+var usd = currency.filter((element)=>(element.currencies[0].code==="USD")).map((country)=>country.name);    
+    console.log(usd);
+
+}
